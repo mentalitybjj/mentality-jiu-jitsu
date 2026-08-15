@@ -244,7 +244,7 @@
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Inter+Tight:wght@400;500;600;700&family=Azeret+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 /* ============================================================
    MENTALITY JIU JITSU — brand tokens
@@ -263,18 +263,20 @@
      Metadata / technical  PP Supply Mono   — all caps, regular weight
      Body / subheadings    Inter            — all weights
 
-   PP Neue Montreal and PP Supply Mono are commercial licences
-   (Pangram Pangram). Until the webfonts are installed, the stack
-   falls back to Inter Tight and Azeret Mono. To swap in the real
-   fonts: drop the @font-face blocks into the SWAP SLOT below —
-   the family names are already first in every stack.
+   PP Neue Montreal Medium and PP Supply Mono Regular are commercial
+   licences (Pangram Pangram) and are now self-hosted from fonts/.
+   The earlier Inter Tight / Azeret Mono stand-ins have been removed.
    ============================================================ */
 
-/* ---------- SWAP SLOT: licensed webfonts go here ----------
+/* ---------- LICENSED WEBFONTS — in use ----------
+   Metrics read from the supplied files, matching the Display Type Spec:
+     PPNeueMontreal-Medium  capHeight 715/1000, usWeightClass 500
+     PPSupplyMono-Regular   capHeight 700/1000, usWeightClass 400
+   Only Medium and Regular are licensed, so each family declares one weight;
+   the stacks below never ask for another. Inter still comes from Google Fonts
+   for body copy, which the guidelines specify for long-form text. */
 @font-face{font-family:'PP Neue Montreal';src:url('fonts/PPNeueMontreal-Medium.woff2') format('woff2');font-weight:500;font-style:normal;font-display:swap}
-@font-face{font-family:'PP Neue Montreal';src:url('fonts/PPNeueMontreal-Book.woff2')   format('woff2');font-weight:400;font-style:normal;font-display:swap}
 @font-face{font-family:'PP Supply Mono';  src:url('fonts/PPSupplyMono-Regular.woff2')  format('woff2');font-weight:400;font-style:normal;font-display:swap}
------------------------------------------------------------- */
 
 :root{
   --brand-black:#171717;
@@ -283,9 +285,9 @@
 
   --bg:#171717; --fg:#E9E5D9; --muted:#75726B; --line:rgba(233,229,217,.20);
   --surface:#222121; --surface-2:#2C2C2A; --veil:233,229,217;
-  --display:'PP Neue Montreal','Inter Tight',system-ui,sans-serif;
+  --display:'PP Neue Montreal',system-ui,sans-serif;
   --body:'Inter',system-ui,sans-serif;
-  --mono:'PP Supply Mono','Azeret Mono',ui-monospace,monospace;
+  --mono:'PP Supply Mono',ui-monospace,monospace;
   --gut:clamp(20px,5vw,64px);
 }
 html[data-theme="light"]{
@@ -460,13 +462,18 @@ body.ready .s5{transition-delay:.52s}
 
    Hard colour stops, so the gradient is an edge and not a fade. With JS
    off no mask is set and the type simply renders whole. */
+/* clip-path rather than mask-image: both render identically on screen, but
+   Chromium drops CSS masks in its print/PDF path, which would silently lose
+   the cut on a printed page. The three non-cut sides take negative insets so
+   only the cut edge is ever trimmed — at this leading the glyphs overflow
+   their line box, and a plain inset would shave the baseline. */
 .cut-line{display:block}
 .cut-line.cut-top{
-  -webkit-mask-image:linear-gradient(to bottom,transparent var(--cut),#000 var(--cut));
-          mask-image:linear-gradient(to bottom,transparent var(--cut),#000 var(--cut))}
+  -webkit-clip-path:inset(var(--cut) -.6em -.6em -.6em);
+          clip-path:inset(var(--cut) -.6em -.6em -.6em)}
 .cut-line.cut-bot{
-  -webkit-mask-image:linear-gradient(to top,transparent var(--cut),#000 var(--cut));
-          mask-image:linear-gradient(to top,transparent var(--cut),#000 var(--cut))}
+  -webkit-clip-path:inset(-.6em -.6em var(--cut) -.6em);
+          clip-path:inset(-.6em -.6em var(--cut) -.6em)}
 
 /* ============ MARQUEE ============ */
 .strip{background:var(--fg);color:var(--bg);padding:13px 0;overflow:hidden;white-space:nowrap;position:relative;z-index:4;transition:background .45s ease,color .45s ease}

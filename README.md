@@ -9,6 +9,9 @@ Single-page website for Mentality Jiu Jitsu — Brazilian Jiu Jitsu and Muay Tha
 | `index.html` | The entire site — HTML, CSS and JS in one file |
 | `hero.mp4` | Background loop for the hero section |
 | `hero-poster.jpg` | Still frame shown before the video loads |
+| `Mentality-Jiu-Jitsu-Your-First-Month.pdf` | Beginner's guide, offered on the lead form |
+| `fonts/` | Licensed PP Neue Montreal + PP Supply Mono webfonts |
+| `Code.gs` | Apps Script form receiver (not served; kept as a backup) |
 
 All three must stay in the same folder. `index.html` references the other two
 by relative path.
@@ -51,11 +54,12 @@ After editing `Code.gs`, redeploy via **Deploy → Manage deployments → pencil
 
 ## Brand fonts
 
-The display and mono stacks list **PP Neue Montreal** and **PP Supply Mono**
-first, falling back to Inter Tight and Azeret Mono from Google Fonts. To use
-the licensed fonts, add the `.woff2` files to a `fonts/` folder and uncomment
-the `@font-face` block near the top of the `<style>` in `index.html`. Nothing
-else needs to change.
+**PP Neue Montreal Medium** and **PP Supply Mono Regular** are licensed
+(Pangram Pangram) and self-hosted from `fonts/`. Both files must be uploaded
+with the site or display type falls back to the system sans.
+
+Inter is still loaded from Google Fonts for body copy, which the brand
+guidelines specify for long-form text.
 
 ## Brand colours
 
