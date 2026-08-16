@@ -478,6 +478,16 @@ body.ready .s5{transition-delay:.52s}
   -webkit-clip-path:inset(-.6em -.6em var(--cut) -.6em);
           clip-path:inset(-.6em -.6em var(--cut) -.6em)}
 
+/* Hero title — each line drifts slowly up from rest and settles, one after
+   another, so the stack reads as rising rather than jittering. Animated on
+   the line itself, not the h1, so it never fights the .stage entrance
+   transform. Pauses on hover. */
+#heroText .cut-stack .cut-line{animation:riseLoop 5.5s ease-in-out infinite}
+#heroText .cut-stack .cut-line:nth-child(2){animation-delay:.35s}
+#heroText .cut-stack .cut-line:nth-child(3){animation-delay:.7s}
+#heroText .cut-stack:hover .cut-line{animation-play-state:paused}
+@keyframes riseLoop{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+
 /* ============ MARQUEE ============ */
 .strip{background:var(--fg);color:var(--bg);padding:13px 0;overflow:hidden;white-space:nowrap;position:relative;z-index:4;transition:background .45s ease,color .45s ease}
 .strip-shift{display:block;will-change:transform}
