@@ -1,6 +1,9 @@
 /**
  * MENTALITY JIU JITSU — form receiver
- * Receives submissions from the website and appends them to this spreadsheet.
+ * Receives submissions from the website, appends them to this spreadsheet,
+ * and emails the beginner's guide PDF to anyone who requests it. The site
+ * itself never hands out the PDF directly — the whole point of the form is
+ * that the guide only ever arrives by email.
  *
  * SETUP
  *  1. Create a Google Sheet. Extensions -> Apps Script. Paste this file in,
@@ -14,6 +17,9 @@
  *     that is expected for your own script. Advanced -> Go to (project).
  *  4. Copy the Web app URL (ends in /exec) and paste it into ENDPOINT
  *     near the bottom of index.html.
+ *  5. Check GUIDE_PDF_URL below points at wherever the PDF is actually
+ *     hosted (it defaults to the GitHub Pages URL). It has to be a public,
+ *     directly-fetchable link — not a Google Drive "share" link.
  *
  * IMPORTANT: after any edit here, run Deploy -> Manage deployments ->
  * pencil icon -> Version: New version -> Deploy. Saving alone does not
@@ -25,6 +31,10 @@ var NOTIFY_EMAIL = "";
 
 // Optional. Leave "" to use the spreadsheet this script is bound to.
 var SPREADSHEET_ID = "";
+
+// Public URL of the beginner's guide PDF. Must be reachable with a plain
+// GET (no login) — this is what gets fetched and attached to the email.
+var GUIDE_PDF_URL = "https://mentalitybjj.github.io/Mentality-Jiu-Jitsu-Your-First-Month.pdf";
 
 var TABS = {
   'trial-booking': {
@@ -75,6 +85,7 @@ function doPost(e) {
 
     sheet.appendRow(row.map(function (v) { return v === undefined ? '' : v; }));
     notify(data);
+    if (data.type === 'guide-download') sendGuide(data);
     return reply({ ok: true });
 
   } catch (err) {
@@ -136,6 +147,44 @@ function notify(data) {
     MailApp.sendEmail(NOTIFY_EMAIL, subject, body);
   } catch (ignored) {
     // Never let a mail failure lose the row that was already written.
+  }
+}
+
+/**
+ * Fetches the guide PDF and emails it to the person who requested it. This
+ * is the actual delivery mechanism — the site's "Send me the guide" button
+ * does not link to the PDF anywhere; it only ever arrives this way.
+ */
+function sendGuide(data) {
+  if (!GUIDE_PDF_URL) return; // nothing to attach — misconfigured, skip quietly
+  try {
+    var resp = UrlFetchApp.fetch(GUIDE_PDF_URL, { muteHttpExceptions: true });
+    if (resp.getResponseCode() !== 200) return; // don't email a broken/missing PDF
+
+    var pdf = resp.getBlob().setName('Mentality Jiu Jitsu - Your First Month.pdf');
+    var first = (data.firstName || '').toString().trim();
+
+    var body = [
+      'Hey ' + (first || 'there') + ',',
+      '',
+      "Here's the guide — seven pages on what actually happens in your first month: what to bring, week by week, and the etiquette nobody explains up front. It's attached as a PDF.",
+      '',
+      "Haven't booked your three free classes yet? Just reply to this email or head back to the site.",
+      '',
+      'Mentality Jiu Jitsu',
+      'Tweed Heads South'
+    ].join('\n');
+
+    MailApp.sendEmail({
+      to: data.email,
+      subject: "Your Mentality Jiu Jitsu beginner's guide",
+      body: body,
+      attachments: [pdf],
+      name: 'Mentality Jiu Jitsu'
+    });
+  } catch (ignored) {
+    // Never let a mail failure lose the row that was already written — the
+    // sheet still has their email, so it can be sent manually if this fails.
   }
 }
 
