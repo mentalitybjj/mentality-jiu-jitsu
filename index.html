@@ -648,6 +648,22 @@ a.count:hover .count-cta{opacity:1;color:var(--fg)}
 .hero-soc a:hover{background:var(--fg)}
 .foot-soc{margin-top:22px}
 
+/* Hero phone/email — same veiled-panel treatment as the panels beside it so
+   it reads clearly over the video, but set in mono at real weight since this
+   is the number/address people actually act on, not a supporting label. */
+.hero-contact{margin-top:14px;display:flex;flex-direction:column;gap:8px}
+.hc-label{font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--muted);padding:5px 9px;display:inline-block;width:fit-content;
+  background:var(--bg);background:color-mix(in srgb,var(--bg) 84%,transparent);
+  -webkit-backdrop-filter:blur(9px);backdrop-filter:blur(9px)}
+.hero-contact a{display:block;padding:11px 14px;border:1px solid var(--line);
+  background:var(--bg);background:color-mix(in srgb,var(--bg) 84%,transparent);
+  -webkit-backdrop-filter:blur(9px);backdrop-filter:blur(9px);
+  font-family:var(--mono);font-size:13px;font-weight:600;letter-spacing:.01em;
+  color:var(--fg);text-decoration:none;word-break:break-word;
+  transition:background .2s,color .2s,border-color .2s}
+.hero-contact a:hover{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+
 /* ============ GOOGLE REVIEWS ============ */
 .grev{border:1px solid var(--line);background:var(--surface);padding:clamp(20px,2.6vw,28px);
   display:flex;align-items:center;justify-content:space-between;gap:clamp(18px,3vw,32px);flex-wrap:wrap;margin-top:34px}
@@ -692,6 +708,10 @@ footer.site{border-top:1px solid var(--line);padding:44px 0 110px;background:var
 .foot-brand .brand-mark{height:38px}
 .foot-brand .wordmark{width:clamp(196px,26vw,260px)}
 .foot p{font-size:12.5px;color:var(--muted);margin-top:14px}
+.foot p.foot-contact{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:8px}
+.foot-contact a{font-family:var(--mono);font-size:13.5px;font-weight:600;color:var(--fg);
+  text-decoration:none;border-bottom:1px solid var(--line);transition:border-color .2s,opacity .2s}
+.foot-contact a:hover{border-color:var(--fg)}
 .foot nav{display:flex;gap:20px;flex-wrap:wrap}
 .foot nav a{font-size:12.5px;color:var(--muted);text-decoration:none}
 .foot nav a:hover{color:var(--fg)}
@@ -929,6 +949,11 @@ html.js .rv.in{opacity:1;transform:none}
         <div class="hero-cta stage s4">
           <a href="#book" class="btn">Book your free trial</a>
           <a href="#first" class="btn btn-ghost">What happens on day one</a>
+        </div>
+        <div class="hero-contact stage s4">
+          <span class="hc-label">Call or email</span>
+          <a href="tel:+61452518690">+61 452 518 690</a>
+          <a href="mailto:mentalityjiujitsu@outlook.com">mentalityjiujitsu@outlook.com</a>
         </div>
         <div class="soc-wrap hero-soc"><span class="soc-label">Follow us</span><div class="soc"><a href="https://www.instagram.com/mentalityjiujitsu/" target="_blank" rel="noopener" aria-label="Mentality Jiu Jitsu on Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-ig"/></svg></a><a href="https://www.facebook.com/mentalityjiujitsu" target="_blank" rel="noopener" aria-label="Mentality Jiu Jitsu on Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-fb"/></svg></a></div></div>
       </div>
@@ -1258,7 +1283,8 @@ html.js .rv.in{opacity:1;transform:none}
   <div class="wrap foot">
     <div>
       <a href="#top" class="brand foot-brand" aria-label="Mentality Jiu Jitsu — back to top"><svg class="mark brand-mark" viewBox="0 0 766.962 609.076" aria-hidden="true"><use href="#logo"/></svg><span class="brand-txt"><span class="wordmark" role="img" aria-label="Mentality"></span><small>Jiu Jitsu Gym</small></span></a>
-      <p>7/23 Corporation Cct, Tweed Heads South NSW 2486<br>+61 452 518 690</p>
+      <p>7/23 Corporation Cct, Tweed Heads South NSW 2486</p>
+      <p class="foot-contact"><a href="tel:+61452518690">+61 452 518 690</a><a href="mailto:mentalityjiujitsu@outlook.com">mentalityjiujitsu@outlook.com</a></p>
       <div class="soc-wrap foot-soc"><span class="soc-label">Follow us</span><div class="soc"><a href="https://www.instagram.com/mentalityjiujitsu/" target="_blank" rel="noopener" aria-label="Mentality Jiu Jitsu on Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-ig"/></svg></a><a href="https://www.facebook.com/mentalityjiujitsu" target="_blank" rel="noopener" aria-label="Mentality Jiu Jitsu on Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-fb"/></svg></a></div></div>
     </div>
     <nav><a href="#programs">Programs</a><a href="#first">First class</a><a href="#timetable">Timetable</a><a href="#book">Free trial</a><a href="#faq">FAQ</a><a href="#visit">Visit</a></nav>
