@@ -749,11 +749,11 @@ html[data-theme="light"] .belt .b5{background:#E9E5D9}
    frame — the middle of the frame is just gi fabric and reads as noise.
    On phones the video is taller than the viewport is wide, so there is no
    vertical travel and this value has no effect there. */
-.hero-vid video{width:100%;height:100%;object-fit:cover;object-position:50% 14%;filter:grayscale(1) contrast(1.08) brightness(.92);will-change:transform}
+.hero-vid video{width:100%;height:100%;object-fit:cover;object-position:50% 14%;filter:contrast(1.04) saturate(1.05) brightness(.97);will-change:transform}
 .hero-scrim{position:absolute;inset:0;background:
   linear-gradient(90deg,var(--bg) 0%,var(--bg) 34%,rgba(0,0,0,0) 78%),
   linear-gradient(180deg,var(--bg) 0%,rgba(0,0,0,0) 26%,rgba(0,0,0,0) 62%,var(--bg) 100%)}
-html[data-theme="light"] .hero-vid video{filter:grayscale(1) contrast(1.02) brightness(1.12)}
+html[data-theme="light"] .hero-vid video{filter:contrast(1.01) saturate(1.02) brightness(1.06)}
 @media(max-width:900px){
  .hero-scrim{background:linear-gradient(180deg,var(--bg) 0%,var(--bg) 46%,rgba(0,0,0,.15) 72%,var(--bg) 100%)}
 }
@@ -879,8 +879,8 @@ html.js .rv.in{opacity:1;transform:none}
 <!-- HERO -->
 <section class="hero" id="top">
   <div class="hero-vid" id="heroVid">
-    <video id="bgvid" autoplay muted loop playsinline preload="metadata" poster="hero-poster.jpg" aria-hidden="true">
-      <source src="hero.mp4" type="video/mp4">
+    <video id="bgvid" autoplay muted loop playsinline preload="metadata" poster="hero-poster.jpg?v=3" aria-hidden="true">
+      <source src="hero.mp4?v=3" type="video/mp4">
     </video>
   </div>
   <div class="hero-scrim"></div>
