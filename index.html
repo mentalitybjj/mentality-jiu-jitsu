@@ -890,26 +890,28 @@ html.js .rv.in{opacity:1;transform:none}
   <div class="hero-tex" id="tex"></div>
   <div class="wrap hero-inner" id="heroInner">
     <div class="hero-grid">
-      <div>
+      <div id="heroText">
         <p class="eyebrow stage s1">Brazilian Jiu Jitsu &amp; Muay Thai · Tweed Heads South</p>
         <h1 class="h-xl cut-stack stage s2"><span class="cut-line">Nobody here</span><span class="cut-line">started</span><em class="cut-line">knowing how.</em></h1>
         <p class="lede stage s3">Every single person on our mats walked in for the first time not knowing what they were doing. Most were nervous. Most had never trained. Three free classes, no experience, no pressure &mdash; just come and see.</p>
       </div>
       <div class="hero-media stage s5" id="heroMedia">
-        <div class="hero-panel">
-          <p class="nc-label"><span class="nc-dot"></span>Next class on the mats</p>
-          <p class="nc-when" id="ncWhen">Loading…</p>
-          <p class="nc-what" id="ncWhat"></p>
-          <a href="#timetable" class="nc-go">See the full timetable →</a>
-        </div>
-        <a class="hero-panel hp-rate" href="https://g.page/r/CZ_LeFevIGbwEAE/review" target="_blank" rel="noopener"
-           aria-label="Rated 5.0 from 34 Google reviews — write us a review on Google">
-          <div>
-            <div class="stars" aria-hidden="true">★★★★★</div>
-            <div class="rating-n">5.0</div>
+        <div id="heroPanels">
+          <div class="hero-panel">
+            <p class="nc-label"><span class="nc-dot"></span>Next class on the mats</p>
+            <p class="nc-when" id="ncWhen">Loading…</p>
+            <p class="nc-what" id="ncWhat"></p>
+            <a href="#timetable" class="nc-go">See the full timetable →</a>
           </div>
-          <p>34 Google<br>reviews<span class="rate-cta">Write a review →</span></p>
-        </a>
+          <a class="hero-panel hp-rate" href="https://g.page/r/CZ_LeFevIGbwEAE/review" target="_blank" rel="noopener"
+             aria-label="Rated 5.0 from 34 Google reviews — write us a review on Google">
+            <div>
+              <div class="stars" aria-hidden="true">★★★★★</div>
+              <div class="rating-n">5.0</div>
+            </div>
+            <p>34 Google<br>reviews<span class="rate-cta">Write a review →</span></p>
+          </a>
+        </div>
         <div class="hero-cta stage s4">
           <a href="#book" class="btn">Book your free trial</a>
           <a href="#first" class="btn btn-ghost">What happens on day one</a>
@@ -1318,7 +1320,8 @@ tgl.addEventListener("click",function(){
 
 /* ---------- PARALLAX (hero only, stops at the marquee) ---------- */
 var hero=document.querySelector(".hero"),
-    heroInner=document.getElementById("heroInner"),
+    heroText=document.getElementById("heroText"),
+    heroPanels=document.getElementById("heroPanels"),
     media=document.getElementById("heroMedia"),
     tex=document.getElementById("tex"),
     vidEl=document.querySelector("#heroVid video"),
@@ -1331,8 +1334,10 @@ function para(){
   if(p===lastP) return;
   lastP=p;
   var d=y*0.34;
-  heroInner.style.transform="translate3d(0,"+d.toFixed(1)+"px,0)";
-  heroInner.style.opacity=(1-p*0.9).toFixed(3);
+  var o=(1-p*0.9).toFixed(3);
+  heroText.style.transform="translate3d(0,"+d.toFixed(1)+"px,0)";
+  heroText.style.opacity=o;
+  heroPanels.style.opacity=o;
   media.style.transform="translate3d(0,"+(-y*0.10).toFixed(1)+"px,0) scale("+(1+p*0.04).toFixed(3)+")";
   tex.style.transform="translate3d(0,"+(y*0.08).toFixed(1)+"px,0)";
   if(vidEl) vidEl.style.transform="translate3d(0,"+(y*0.16).toFixed(1)+"px,0) scale("+(1+p*0.06).toFixed(3)+")";
