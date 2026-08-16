@@ -478,21 +478,6 @@ body.ready .s5{transition-delay:.52s}
   -webkit-clip-path:inset(-.6em -.6em var(--cut) -.6em);
           clip-path:inset(-.6em -.6em var(--cut) -.6em)}
 
-/* Hero title — a slow glint sweeps across the cut, echoing the intro's blade
-   streak (.iv-streak/@keyframes blade). Sits on a pseudo-element rather than
-   the h1 itself so it never fights the .stage entrance transform. Rests at
-   both ends of its travel rather than looping smoothly — a blade doesn't
-   glide back into place. Pauses on hover. */
-#heroText .cut-stack{position:relative}
-#heroText .cut-stack::after{
-  content:"";position:absolute;top:-10%;bottom:-10%;left:-30%;width:20%;
-  background:linear-gradient(100deg,transparent,color-mix(in srgb,currentColor 55%,transparent),transparent);
-  mix-blend-mode:overlay;transform:skewX(-14deg);pointer-events:none;
-  animation:heroGlint 7.5s cubic-bezier(.42,0,.14,1) infinite;
-}
-#heroText .cut-stack:hover::after{animation-play-state:paused}
-@keyframes heroGlint{0%{left:-30%}42%{left:120%}100%{left:120%}}
-
 /* ============ MARQUEE ============ */
 .strip{background:var(--fg);color:var(--bg);padding:13px 0;overflow:hidden;white-space:nowrap;position:relative;z-index:4;transition:background .45s ease,color .45s ease}
 .strip-shift{display:block;will-change:transform}
