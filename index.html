@@ -478,15 +478,16 @@ body.ready .s5{transition-delay:.52s}
   -webkit-clip-path:inset(-.6em -.6em var(--cut) -.6em);
           clip-path:inset(-.6em -.6em var(--cut) -.6em)}
 
-/* Hero title — each line drifts slowly up from rest and settles, one after
-   another, so the stack reads as rising rather than jittering. Animated on
-   the line itself, not the h1, so it never fights the .stage entrance
-   transform. Pauses on hover. */
-#heroText .cut-stack .cut-line{animation:riseLoop 5.5s ease-in-out infinite}
-#heroText .cut-stack .cut-line:nth-child(2){animation-delay:.35s}
-#heroText .cut-stack .cut-line:nth-child(3){animation-delay:.7s}
-#heroText .cut-stack:hover .cut-line{animation-play-state:paused}
-@keyframes riseLoop{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+/* Hero title — a continuous vertical ticker. The track holds the title
+   twice back to back and scrolls up by exactly one copy's height, forever;
+   since both copies are identical the loop point is invisible. Height is
+   set from JS (see sizeHeroTicker) to match one copy exactly, so the window
+   never clips a line. The track carries the motion, not the h1, so it
+   never fights the .stage entrance transform. Pauses on hover. */
+.hero-ticker{overflow:hidden}
+.hero-ticker-track{display:flex;flex-direction:column;animation:heroTickerUp 24s linear infinite}
+.hero-ticker:hover .hero-ticker-track{animation-play-state:paused}
+@keyframes heroTickerUp{to{transform:translateY(-50%)}}
 
 /* ============ MARQUEE ============ */
 .strip{background:var(--fg);color:var(--bg);padding:13px 0;overflow:hidden;white-space:nowrap;position:relative;z-index:4;transition:background .45s ease,color .45s ease}
@@ -902,7 +903,10 @@ html.js .rv.in{opacity:1;transform:none}
     <div class="hero-grid">
       <div id="heroText">
         <p class="eyebrow stage s1">Brazilian Jiu Jitsu &amp; Muay Thai · Tweed Heads South</p>
-        <h1 class="h-xl cut-stack stage s2"><span class="cut-line">Nobody here</span><span class="cut-line">started</span><em class="cut-line">knowing how.</em></h1>
+        <div class="hero-ticker stage s2" id="heroTicker"><div class="hero-ticker-track" id="heroTickerTrack">
+          <h1 class="h-xl cut-stack"><span class="cut-line">Nobody here</span><span class="cut-line">started</span><em class="cut-line">knowing how.</em></h1>
+          <div class="h-xl cut-stack" aria-hidden="true"><span class="cut-line">Nobody here</span><span class="cut-line">started</span><em class="cut-line">knowing how.</em></div>
+        </div></div>
         <p class="lede stage s3">Every single person on our mats walked in for the first time not knowing what they were doing. Most were nervous. Most had never trained. Three free classes, no experience, no pressure &mdash; just come and see.</p>
       </div>
       <div class="hero-media stage s5" id="heroMedia">
@@ -1491,6 +1495,23 @@ cutStack();
 if(document.fonts && document.fonts.ready) document.fonts.ready.then(cutStack)["catch"](function(){});
 window.addEventListener("resize", function(){
   clearTimeout(cutStack._t); cutStack._t = setTimeout(cutStack, 120);
+}, {passive:true});
+
+/* ---------- HERO TICKER ---------- */
+/* The viewport height must equal exactly one copy of the title so the
+   scrolling window never clips a line. Measured from the live (non-hidden)
+   copy, which is why sizing runs after cutStack() has already set its
+   metrics — same triggers, same fluid-type/late-webfont reasons. */
+function sizeHeroTicker(){
+  var vp = document.getElementById("heroTicker");
+  var one = vp && vp.querySelector(".cut-stack");
+  if(!vp || !one) return;
+  vp.style.height = one.offsetHeight + "px";
+}
+sizeHeroTicker();
+if(document.fonts && document.fonts.ready) document.fonts.ready.then(sizeHeroTicker)["catch"](function(){});
+window.addEventListener("resize", function(){
+  clearTimeout(sizeHeroTicker._t); sizeHeroTicker._t = setTimeout(sizeHeroTicker, 120);
 }, {passive:true});
 
 /* ---------- MARQUEE ---------- */
