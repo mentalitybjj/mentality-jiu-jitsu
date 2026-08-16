@@ -435,6 +435,9 @@ html[data-theme="light"] .tgl .moon{display:block}
 .hero h1{margin:20px 0 24px}
 .hero h1 em{font-style:normal;display:block;color:var(--muted)}
 .hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:32px}
+.hero-media .hero-cta{margin-top:12px;flex-direction:column;flex-wrap:nowrap}
+.hero-media .hero-cta .btn{width:100%}
+.hero-media .hero-cta .btn-ghost{background:var(--bg);background:color-mix(in srgb,var(--bg) 84%,transparent);-webkit-backdrop-filter:blur(9px);backdrop-filter:blur(9px)}
 .stars{font-size:17px;letter-spacing:3px;margin-bottom:6px}
 .rating-n{font-family:var(--display);font-weight:500;font-size:40px;line-height:1}
 .hero-rate p{font-size:12px;color:var(--muted);margin-top:6px;font-family:var(--mono);letter-spacing:.1em;text-transform:uppercase}
@@ -891,10 +894,6 @@ html.js .rv.in{opacity:1;transform:none}
         <p class="eyebrow stage s1">Brazilian Jiu Jitsu &amp; Muay Thai · Tweed Heads South</p>
         <h1 class="h-xl cut-stack stage s2"><span class="cut-line">Nobody here</span><span class="cut-line">started</span><em class="cut-line">knowing how.</em></h1>
         <p class="lede stage s3">Every single person on our mats walked in for the first time not knowing what they were doing. Most were nervous. Most had never trained. Three free classes, no experience, no pressure &mdash; just come and see.</p>
-        <div class="hero-cta stage s4">
-          <a href="#book" class="btn">Book your free trial</a>
-          <a href="#first" class="btn btn-ghost">What happens on day one</a>
-        </div>
       </div>
       <div class="hero-media stage s5" id="heroMedia">
         <div class="hero-panel">
@@ -911,6 +910,10 @@ html.js .rv.in{opacity:1;transform:none}
           </div>
           <p>34 Google<br>reviews<span class="rate-cta">Write a review →</span></p>
         </a>
+        <div class="hero-cta stage s4">
+          <a href="#book" class="btn">Book your free trial</a>
+          <a href="#first" class="btn btn-ghost">What happens on day one</a>
+        </div>
         <div class="soc-wrap hero-soc"><span class="soc-label">Follow us</span><div class="soc"><a href="https://www.instagram.com/mentalityjiujitsu/" target="_blank" rel="noopener" aria-label="Mentality Jiu Jitsu on Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-ig"/></svg></a><a href="https://www.facebook.com/mentalityjiujitsu" target="_blank" rel="noopener" aria-label="Mentality Jiu Jitsu on Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-fb"/></svg></a></div></div>
       </div>
     </div>
