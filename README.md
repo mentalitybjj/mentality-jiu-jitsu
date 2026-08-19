@@ -9,6 +9,7 @@ Single-page website for Mentality Jiu Jitsu — Brazilian Jiu Jitsu and Muay Tha
 | `index.html` | The entire site — HTML, CSS and JS in one file |
 | `hero.mp4` | Background loop for the hero section |
 | `hero-poster.jpg` | Still frame shown before the video loads |
+| `felipe.jpg`, `william.jpg` | Coach photos in the "Coaches" section |
 | `Mentality-Jiu-Jitsu-Your-First-Month.pdf` | Beginner's guide — emailed to whoever requests it, never linked from the page |
 | `fonts/` | Licensed PP Neue Montreal + PP Supply Mono webfonts |
 | `Code.gs` | Apps Script form receiver (not served; kept as a backup) |

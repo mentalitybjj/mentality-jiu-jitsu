@@ -585,8 +585,7 @@ body.ready .s5{transition-delay:.52s}
 
 /* ============ COACHES ============ */
 .coach{border:1px solid var(--line);background:var(--surface);overflow:hidden}
-.coach-mono{height:190px;display:grid;place-items:center;background:repeating-linear-gradient(45deg,var(--surface) 0 14px,var(--surface-2) 14px 28px)}
-.coach-mono svg{width:78px;height:62px;color:var(--fg);opacity:.32}
+.coach-media{aspect-ratio:3/4}
 .coach-body{padding:22px}
 .coach-body h3{font-family:var(--display);font-weight:500;font-size:19px;text-transform:uppercase}
 .coach-body .role{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;color:var(--muted);text-transform:uppercase;margin-top:5px}
@@ -1138,10 +1137,9 @@ html.js .rv.in{opacity:1;transform:none}
   <div class="wrap">
     <div class="sec-head rv"><p class="eyebrow">Who's on the mat</p><h2 class="h-lg">The people<br>teaching you</h2>
       <p class="lede">Small enough that the coaches know your name and what you're working on. Big enough that there's always someone your size to train with.</p></div>
-    <div class="cols-3">
-      <article class="coach rv"><div class="coach-mono"><svg class="mark" viewBox="0 0 766.962 609.076" aria-hidden="true"><use href="#logo"/></svg></div><div class="coach-body"><h3>Coach name</h3><p class="role">Head Coach · BJJ</p><p>Add belt rank, lineage, years teaching, and one line about how they coach beginners.</p></div></article>
-      <article class="coach rv"><div class="coach-mono"><svg class="mark" viewBox="0 0 766.962 609.076" aria-hidden="true"><use href="#logo"/></svg></div><div class="coach-body"><h3>Coach name</h3><p class="role">Muay Thai</p><p>Add background, fight or teaching record, and what a first pad session with them is like.</p></div></article>
-      <article class="coach rv"><div class="coach-mono"><svg class="mark" viewBox="0 0 766.962 609.076" aria-hidden="true"><use href="#logo"/></svg></div><div class="coach-body"><h3>Coach name</h3><p class="role">Kids Program</p><p>Add experience with kids, working-with-children accreditation, and coaching approach.</p></div></article>
+    <div class="cols-2">
+      <article class="coach rv"><div class="ph coach-media"><img src="felipe.jpg" alt="Felipe Andrade, co-founder and coach at Mentality Jiu Jitsu" loading="lazy"></div><div class="coach-body"><h3>Felipe Andrade</h3><p class="role">Co-Founder &amp; Coach</p><p>Brown belt under Vicente Cavalcanti of Southside Brazilian Jiu Jitsu, and a two-time Queensland State champion with Pan Pacific and UK Devon titles. Brazilian-born with a degree in physical education, he coaches across every program on the mats.</p></div></article>
+      <article class="coach rv"><div class="ph coach-media"><img src="william.jpg" alt="William Moraes, co-founder and coach at Mentality Jiu Jitsu" loading="lazy"></div><div class="coach-body"><h3>William Moraes</h3><p class="role">Co-Founder &amp; Coach</p><p>Black belt under Professor Vicente Cavalcanti, Queensland State and NAGA champion with professional fight experience across Thunder Fighter, Sprawl and K1 Destroyer super-fights. Holds a degree in business administration and coaches across every program on the mats.</p></div></article>
     </div>
   </div>
 </section>
