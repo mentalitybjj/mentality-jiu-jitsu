@@ -585,7 +585,17 @@ body.ready .s5{transition-delay:.52s}
 
 /* ============ COACHES ============ */
 .coach{border:1px solid var(--line);background:var(--surface);overflow:hidden}
-.coach-media{aspect-ratio:3/4}
+.coach-media{aspect-ratio:3/4;position:relative}
+/* These are the people, not decorative texture, so they stay in colour
+   instead of the grayscale-reveals-on-hover treatment .ph uses elsewhere —
+   graded for a filmic look (higher contrast, pulled-back saturation, a touch
+   darker) rather than flat colour, plus a soft vignette. Selector doubles up
+   on .ph so it reliably beats the shared .ph img rule regardless of source
+   order. */
+.ph.coach-media img{filter:contrast(1.14) saturate(.88) brightness(.96) grayscale(0)}
+.ph.coach-media:hover img{filter:contrast(1.14) saturate(.88) brightness(.96) grayscale(0);transform:scale(1.035)}
+.coach-media::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(120% 90% at 50% 38%,transparent 55%,rgba(0,0,0,.34) 100%)}
 .coach-body{padding:22px}
 .coach-body h3{font-family:var(--display);font-weight:500;font-size:19px;text-transform:uppercase}
 .coach-body .role{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;color:var(--muted);text-transform:uppercase;margin-top:5px}
