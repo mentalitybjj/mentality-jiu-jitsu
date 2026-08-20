@@ -785,6 +785,30 @@ html[data-theme="light"] .belt .b5{background:#E9E5D9}
 .belt-on{position:absolute;inset:0;display:flex;clip-path:inset(0 100% 0 0)}
 .belt-on b{opacity:1}
 
+/* ============ EXIT-INTENT TRIAL POPUP ============
+   Desktop: fires once when the cursor leaves toward the top of the window
+   (tab bar / back button / close button). Touch devices have no cursor to
+   read, so there we treat the first back-button press as the same signal —
+   see the JS. Either way it only ever shows once per browser (localStorage),
+   whether the visitor clicks through or dismisses it. */
+.exit-promo{position:fixed;inset:0;z-index:400;display:flex;align-items:center;justify-content:center;
+  padding:20px;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .3s ease}
+.exit-promo.show{opacity:1;visibility:visible;pointer-events:auto}
+.exit-promo-scrim{position:absolute;inset:0;background:rgba(0,0,0,.62);
+  -webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+.exit-promo-card{position:relative;width:100%;max-width:430px;border:1px solid var(--line);
+  background:var(--surface);padding:36px 32px 32px;
+  transform:translateY(16px) scale(.98);transition:transform .4s cubic-bezier(.16,1,.3,1)}
+.exit-promo.show .exit-promo-card{transform:translateY(0) scale(1)}
+.exit-promo-card .h-md{margin:12px 0 14px}
+.exit-promo-card p:not(.eyebrow){font-size:14.5px;line-height:1.5;color:var(--muted);margin-bottom:24px}
+.exit-promo-close{position:absolute;top:14px;right:14px;width:36px;height:36px;display:grid;place-items:center;
+  border:1px solid var(--line);background:transparent;color:var(--fg);cursor:pointer;flex-shrink:0;transition:border-color .2s}
+.exit-promo-close:hover{border-color:var(--fg)}
+.exit-promo-close svg{width:14px;height:14px}
+@media(max-width:520px){.exit-promo-card{padding:30px 22px 24px}}
+@media(prefers-reduced-motion:reduce){.exit-promo-card{transition:none}}
+
 /* ============ HERO VIDEO ============ */
 .hero-vid{position:absolute;inset:0;overflow:hidden}
 /* Source footage is portrait 1080x1920; a wide desktop hero crops it to a
@@ -1301,6 +1325,20 @@ html.js .rv.in{opacity:1;transform:none}
 
 <div class="dock"><p>3 free classes<small>No card, no contract</small></p><a href="#book" class="btn btn-sm">Book now</a></div>
 
+<!-- EXIT-INTENT TRIAL POPUP -->
+<div class="exit-promo" id="exitPromo" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="exitPromoTitle">
+  <div class="exit-promo-scrim" id="exitPromoScrim"></div>
+  <div class="exit-promo-card">
+    <button class="exit-promo-close" id="exitPromoClose" type="button" aria-label="Close">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+    <p class="eyebrow">Before you go</p>
+    <h2 class="h-md" id="exitPromoTitle">3 days free on every class we teach.</h2>
+    <p>BJJ, Muay Thai, kids classes — all of it, on us for three days. No card, no contract, just come see the room.</p>
+    <a href="#book" class="btn btn-wide" id="exitPromoCta">Claim my 3-day trial</a>
+  </div>
+</div>
+
 <script>
 (function(){
 "use strict";
@@ -1730,6 +1768,76 @@ document.getElementById("leadForm").addEventListener("submit",function(e){
     leadBtn.disabled=false; leadBtn.textContent=label;
   });
 });
+})();
+</script>
+
+<script>
+(function(){
+"use strict";
+/* Exit-intent trial popup — shows once per browser, ever. Desktop reads the
+   cursor leaving toward the top of the window; touch devices (no cursor)
+   use the first back-button press as the equivalent "I'm leaving" signal.
+   A true "closing the tab" can't trigger custom UI on mobile — browsers
+   only allow a plain native confirm for that, no custom content — so the
+   back-button press is the closest reliable stand-in. */
+var KEY="mjjExitTrialSeen";
+try{ if(localStorage.getItem(KEY)) return; }catch(e){}
+
+var pop=document.getElementById("exitPromo");
+if(!pop) return;
+var closeBtn=document.getElementById("exitPromoClose"),
+    scrim=document.getElementById("exitPromoScrim"),
+    cta=document.getElementById("exitPromoCta");
+var shown=false, armed=false;
+
+function markSeen(){ try{ localStorage.setItem(KEY,"1"); }catch(e){} }
+
+function show(){
+  if(shown) return;
+  shown=true;
+  pop.classList.add("show");
+  pop.setAttribute("aria-hidden","false");
+  markSeen();
+  document.removeEventListener("mouseout",onMouseOut);
+  window.removeEventListener("popstate",onPopState);
+}
+function hide(){
+  pop.classList.remove("show");
+  pop.setAttribute("aria-hidden","true");
+}
+function onMouseOut(e){
+  if(!armed || shown) return;
+  if(e.clientY>0) return; /* only the top edge counts as "leaving" */
+  if(e.relatedTarget||e.toElement) return; /* mouse is still inside the page */
+  show();
+}
+function onPopState(){ if(armed && !shown) show(); }
+
+closeBtn.addEventListener("click",hide);
+scrim.addEventListener("click",hide);
+cta.addEventListener("click",hide);
+document.addEventListener("keydown",function(e){ if(e.key==="Escape") hide(); });
+
+/* Wait for the intro animation to finish (body gets "ready") plus a short
+   buffer, so the popup can never fire on incidental mouse movement while
+   the page is still loading in. */
+function arm(){
+  if(armed) return;
+  armed=true;
+  document.addEventListener("mouseout",onMouseOut);
+  var isTouch=window.matchMedia&&window.matchMedia("(hover: none), (pointer: coarse)").matches;
+  if(isTouch){
+    try{
+      history.pushState({mjjExit:true},"",location.href);
+      window.addEventListener("popstate",onPopState);
+    }catch(e){}
+  }
+}
+function waitReady(){
+  if(document.body.classList.contains("ready")){ setTimeout(arm,1500); return; }
+  setTimeout(waitReady,200);
+}
+waitReady();
 })();
 </script>
 </body>
