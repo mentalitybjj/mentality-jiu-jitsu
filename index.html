@@ -789,8 +789,9 @@ html[data-theme="light"] .belt .b5{background:#E9E5D9}
    Desktop: fires once when the cursor leaves toward the top of the window
    (tab bar / back button / close button). Touch devices have no cursor to
    read, so there we treat the first back-button press as the same signal —
-   see the JS. Either way it only ever shows once per browser (localStorage),
-   whether the visitor clicks through or dismisses it. */
+   see the JS. Either way it only shows once per visit (sessionStorage) —
+   it resets and can show again the next time the visitor comes back,
+   whether they clicked through or dismissed it. */
 .exit-promo{position:fixed;inset:0;z-index:400;display:flex;align-items:center;justify-content:center;
   padding:20px;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .3s ease}
 .exit-promo.show{opacity:1;visibility:visible;pointer-events:auto}
@@ -1774,14 +1775,16 @@ document.getElementById("leadForm").addEventListener("submit",function(e){
 <script>
 (function(){
 "use strict";
-/* Exit-intent trial popup — shows once per browser, ever. Desktop reads the
-   cursor leaving toward the top of the window; touch devices (no cursor)
+/* Exit-intent trial popup — shows once per visit, every visit. Desktop reads
+   the cursor leaving toward the top of the window; touch devices (no cursor)
    use the first back-button press as the equivalent "I'm leaving" signal.
    A true "closing the tab" can't trigger custom UI on mobile — browsers
    only allow a plain native confirm for that, no custom content — so the
-   back-button press is the closest reliable stand-in. */
+   back-button press is the closest reliable stand-in. sessionStorage (not
+   localStorage) is what makes it "once per visit": it's cleared the moment
+   the tab/browser closes, so the next visit starts fresh. */
 var KEY="mjjExitTrialSeen";
-try{ if(localStorage.getItem(KEY)) return; }catch(e){}
+try{ if(sessionStorage.getItem(KEY)) return; }catch(e){}
 
 var pop=document.getElementById("exitPromo");
 if(!pop) return;
@@ -1790,7 +1793,7 @@ var closeBtn=document.getElementById("exitPromoClose"),
     cta=document.getElementById("exitPromoCta");
 var shown=false, armed=false;
 
-function markSeen(){ try{ localStorage.setItem(KEY,"1"); }catch(e){} }
+function markSeen(){ try{ sessionStorage.setItem(KEY,"1"); }catch(e){} }
 
 function show(){
   if(shown) return;
